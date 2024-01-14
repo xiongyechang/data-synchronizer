@@ -13,7 +13,7 @@ export type closeMethod = (options: Options) => void;
 
 export type StorageData = {
   $payload: {
-    $type: 'string' | 'number' | 'boolean' | 'object' | 'function' | 'date' | 'regexp' | 'bigint',
+    $type: 'string' | 'number' | 'boolean' | 'symbol' | 'object' | 'array' |'function' | 'date' | 'regexp' | 'bigint' | 'set' | 'map' | 'null',
     $value: any,
   },
   $timezone: number,
