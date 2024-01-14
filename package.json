@@ -1,11 +1,11 @@
 {
   "name": "data-synchronizer",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1.alpha-2",
   "private": false,
   "description": "A tool for passing data in multi-page applications.",
   "scripts": {
     "build": "rollup --config rollup.config.mjs",
-    "serve": "serve ./dist"
+    "serve": "serve ./demo"
   },
   "exports": {
     "types": "./types/index.d.ts",
