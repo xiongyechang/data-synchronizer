@@ -28,7 +28,7 @@ export const fromJsonString = (jsonString: string) => {
   return o;
 }
 
-export const toJsonString = (payload = {}) => {
+export const toJsonString = (payload) => {
   const target = formatMap[getType(payload)];
   if (target) {
     payload = target.to(payload)
