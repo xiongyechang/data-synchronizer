@@ -1,0 +1,52 @@
+{
+  "name": "data-synchronizer",
+  "version": "0.0.1-alpha.1",
+  "private": false,
+  "description": "A tool for passing data in multi-page applications.",
+  "scripts": {
+    "build": "rollup --config rollup.config.mjs",
+    "serve": "serve ./dist"
+  },
+  "exports": {
+    "types": "./types/index.d.ts",
+    "import": "./dist/index.esm.min.js",
+    "default": "./dist/index.cjs.min.js"
+  },
+  "main": "dist/index.cjs.min.js",
+  "module": "dist/index.esm.min.js",
+  "unpkg": "dist/index.umd.min.js",
+  "jsdelivr": "dist/index.umd.min.js",
+  "typings": "types/index.d.ts",
+  "files": [
+    "dist/*.js",
+    "types/*.d.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiongyechang/data-synchronizer.git"
+  },
+  "keywords": [
+    "multi-page",
+    "multi page",
+    "passing data",
+    "data transfer",
+    "sync data",
+    "多页面应用",
+    "数据同步",
+    "数据传递"
+  ],
+  "author": "xiongyechang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xiongyechang/data-synchronizer/issues"
+  },
+  "homepage": "https://github.com/xiongyechang/data-synchronizer#readme",
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "rollup": "^4.9.4",
+    "serve": "^14.2.1",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  }
+}

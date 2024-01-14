@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+</head>
+<body>
+  
+</body>
+<script type="module">
+  import { useDataSynchronizer, DataSynchronizer } from './index.esm.min.js';
+
+  // formatMap['promise'] = {
+  //   from(p) {
+  //     return {
+  //       $type: 'promise',
+  //       $value: p.toString(),
+  //     }
+  //   },
+  //   to(value) {
+  //     console.log(value);
+  //     return value;
+  //   }
+  // }
+
+  // const { onMessage } = useDataSynchronizer({
+  //   chan: 'chan_1',
+  //   engine: 'LocalStorage'
+  // });
+
+  // onMessage((o) => {
+  //   console.log('useDataSynchronizer:onMessage', o);
+  // })
+
+  // const { onMessage: onMessage2 } = useDataSynchronizer({});
+  // onMessage2((o) => {
+  //   console.log('useDataSynchronizer:onMessage2', o);
+  // })
+
+  const instance = new DataSynchronizer({
+    chan: 'chan_1',
+    // engine: 'BroadcastChannel'
+    engine: 'LocalStorage'
+  });
+
+  instance.onMessage((o) => {
+    console.log('DataSynchronizer:instance.onMessage', o);
+    const map = o.$payload.map;
+    const { handle } = map.get("function");
+    handle('hello ', 'I am ', 'xiongyechang');
+    // o.$payload.printData('hello everyone', 'today is', 'wonsday');
+  })
+
+  // instance.close();
+
+  // const instance2 = new DataSynchronizer({
+  //   chan: 'chan_1',
+  //   engine: 'LocalStorage'
+  // });
+
+  // instance2.onMessage((o) => {
+  //   console.log('DataSynchronizer:instance2.onMessage', o);
+  // })
+
+</script>
+</html>

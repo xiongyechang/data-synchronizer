@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "lib": ["ES5", "DOM", "ES6", "ES2020"],
+    "target": "ES2015",
+    "module": "ES2022",
+    "outDir": "./dist",
+    "moduleResolution":"Node10",
+    "baseUrl": ".",
+    "sourceMap": true,
+    "paths": {
+      "@lib":["./lib"],
+      "@types": ["./types"],
+      "@utils": ["./utils"],
+      "@src": ["./src"]
+    }
+  },
+  "include": [
+    "lib/**/*.ts",
+    "lib/**/*.d.ts",
+    "lib/*.d.ts",
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/*.d.ts",
+  ]
+}
