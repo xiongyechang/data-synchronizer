@@ -42,7 +42,7 @@ export const handleData = (payload: any, target: SendTarget) => {
     $timezone: Date.now(),
     $origin: location.href,
     $payload,
-    $target: typeof target === 'string' ? target : target.source,
+    $target: typeof target === 'string' ? target : target?.source,
   }
 }
 
