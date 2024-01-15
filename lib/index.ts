@@ -9,7 +9,7 @@ import {
   onSendBroadcastChannelMessageError,
 } from 'lib/engine/index';
 import { isSupportBroadcastChannel, isSupportLocalStorage } from 'lib/utils/index';
-import type { onCallback, SendTarget, Options, EngineOptions, onSendMessageErrorCallback } from 'types/index';
+import { onCallback, SendTarget, Options, EngineOptions, onSendMessageErrorCallback } from 'types/index';
 
 export { DataSynchronizer } from './DataSynchronizer';
 

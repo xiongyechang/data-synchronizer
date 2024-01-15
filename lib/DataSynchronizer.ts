@@ -1,4 +1,4 @@
-import type { Options, SendTarget, onCallback } from "types/index";
+import { Options, SendTarget, onCallback } from "types/index";
 import { LocalStorageAdaptor } from 'lib/adaptor/LocalStorageAdaptor';
 import { BroadcastChannelAdaptor } from 'lib/adaptor/BroadcastChannelAdaptor';
 import { BaseAdaptor } from "./adaptor/BaseAdaptor";
