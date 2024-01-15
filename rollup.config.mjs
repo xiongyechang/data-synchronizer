@@ -1,5 +1,6 @@
-import typescript from '@rollup/plugin-typescript';
+import { babel, getBabelOutputPlugin } from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
+import typescript from '@rollup/plugin-typescript';
 
 export default {
   input: 'lib/index.ts',
@@ -42,11 +43,46 @@ export default {
       format: 'system',
       entryFileNames: '[name].system.min.js',
       plugins: [terser()]
-    }
+    },
   ],
   plugins: [
     typescript({
       tsconfig: 'tsconfig.json'
+    }),
+    babel({
+      configFile: "babel.config.js",
+      exclude: "node_modules/**",
+      babelHelpers: "runtime"
     })
+    // getBabelOutputPlugin(
+    //   {
+    //     presets: [
+    //       [
+    //         "@babel/preset-env",
+    //         {
+    //           targets: "> 1%, last 2 versions, not ie <= 8",
+    //           modules: false,
+    //           useBuiltIns: "usage",
+    //           corejs: 3,
+    //         },
+    //       ],
+    //       // [
+    //       "@babel/preset-typescript",
+    //         // {
+    //         //   allowDeclareFields: true,
+    //         // }
+    //       // ]
+    //     ],
+    //     plugins: [
+    //       "@babel/plugin-external-helpers",
+    //       [
+    //         "@babel/transform-runtime",
+    //         {
+    //           "useESModules": true
+    //         }
+    //       ]
+    //     ],
+    //   }      
+    // )
   ],
 };

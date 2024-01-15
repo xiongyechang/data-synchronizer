@@ -1,5 +1,5 @@
 import { canInvoke, fromJsonStringData, handleData } from "lib/utils/index";
-import type { Options, onMessageMethod, sendMessageMethod, onSendMessageErrorMethod, onCallback, closeMethod } from "types/index";
+import { Options, onMessageMethod, sendMessageMethod, onSendMessageErrorMethod, onCallback, closeMethod } from "types/index";
 
 const map: Record<string, onCallback[]> = {};
 

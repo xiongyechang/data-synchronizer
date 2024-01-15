@@ -1,5 +1,5 @@
 import { canInvoke, fromJsonStringData, handleData } from "lib/utils/index";
-import type { onMessageMethod, sendMessageMethod, onSendMessageErrorMethod, closeMethod } from "types/index";
+import { onMessageMethod, sendMessageMethod, onSendMessageErrorMethod, closeMethod } from "types/index";
 
 const map: Record<string, BroadcastChannel> = {};
 
