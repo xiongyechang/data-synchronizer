@@ -1,6 +1,6 @@
 # data-synchronizer
 ---
-A tool for passing data in <span style="color:#CB3837;">multi-page applications<span>.
+A common library for transferring data to multi-page applications.
 
 ## Background
 As we all know, every page run in diffurent Javascript context in multi-page applications. so that, we can't to transfer data in `global variable`、`publish-subscribe`、`observer` etc ways. so, I developed the lib to handle this problem. if your app is a single page app, please use others libs.
@@ -81,7 +81,7 @@ import { useDataSynchronizer } from 'data-synchronizer';
 
 const chan = 'cancelLike'; // the chan must be same with previous.
 
-const { sendMessage } = DataSynchronizer({
+const { sendMessage } = useDataSynchronizer({
   chan,
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
