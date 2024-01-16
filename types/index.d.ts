@@ -38,3 +38,15 @@ export type EngineOptions = {
   onSendMessageError?: onSendMessageErrorMethod,
   close?: closeMethod,
 }
+
+type Result = Pick<EngineOptions, 'onMessage' | 'sendMessage' | 'onSendMessageError' | 'close'>
+
+export const useDataSynchronizer: (options: Options) => Result;
+
+export type DataSynchronizerInstance = Result;
+
+export interface DataSynchronizerConstructor<O extends Options = Options> {
+  new(o: O): DataSynchronizerInstance;
+}
+
+export const DataSynchronizer: DataSynchronizerConstructor;

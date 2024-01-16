@@ -56,9 +56,5 @@
     "serve": "^14.2.1",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
-  },
-  "peerDependencies": {
-    "@babel/runtime-corejs3": "^7.23.8",
-    "core-js": "^3.35.0"
   }
 }
