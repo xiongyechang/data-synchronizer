@@ -49,11 +49,11 @@ export default {
     typescript({
       tsconfig: 'tsconfig.json'
     }),
-    babel({
-      configFile: "babel.config.js",
-      exclude: "node_modules/**",
-      babelHelpers: "runtime"
-    })
+    // babel({
+    //   configFile: "babel.config.js",
+    //   exclude: "node_modules/**",
+    //   babelHelpers: "runtime"
+    // })
     // getBabelOutputPlugin(
     //   {
     //     presets: [

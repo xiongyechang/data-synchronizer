@@ -3,7 +3,7 @@ module.exports = {
     [
       "@babel/preset-env",
       {
-        targets: "> 1%, last 2 versions, not ie <= 8",
+        // targets: "> 1%, last 2 versions, not ie <= 8",
         modules: false,
         useBuiltIns: "usage",
         corejs: 3,
@@ -12,13 +12,10 @@ module.exports = {
     // "@babel/preset-typescript",
   ],
   plugins: [
-    "@babel/plugin-external-helpers",
+    // "@babel/plugin-external-helpers",
     [
       "@babel/plugin-transform-runtime", {
-        "corejs": {
-          "version": 3,
-          "proposals": true,
-        },
+        "corejs": 3,
         "useESModules": true,
       }
     ]
