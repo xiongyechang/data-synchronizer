@@ -2,7 +2,7 @@
   "name": "data-synchronizer",
   "version": "0.0.1.alpha-2",
   "private": false,
-  "description": "A tool for passing data in multi-page applications.",
+  "description": "A common library for transferring data to multi-page applications",
   "scripts": {
     "build": "rollup --config rollup.config.mjs",
     "serve": "serve ./demo"
@@ -14,12 +14,13 @@
   },
   "main": "dist/index.cjs.min.js",
   "module": "dist/index.esm.min.js",
-  "unpkg": "dist/index.umd.min.js",
-  "jsdelivr": "dist/index.umd.min.js",
+  "unpkg": "dist/index.esm.min.js",
+  "jsdelivr": "dist/index.esm.min.js",
   "typings": "types/index.d.ts",
   "files": [
     "dist/*.js",
-    "types/*.d.ts"
+    "types/*.d.ts",
+    "lib/**/*"
   ],
   "repository": {
     "type": "git",
@@ -42,13 +43,11 @@
   },
   "homepage": "https://github.com/xiongyechang/data-synchronizer#readme",
   "devDependencies": {
-    "@babel/cli": "^7.23.4",
-    "@babel/core": "^7.23.7",
     "@babel/plugin-external-helpers": "^7.23.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.23.3",
     "@babel/plugin-transform-runtime": "^7.23.7",
     "@babel/preset-env": "^7.23.8",
-    "@babel/preset-typescript": "^7.23.3",
-    "@babel/runtime": "^7.23.8",
+    "@babel/runtime-corejs3": "^7.23.8",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
@@ -57,5 +56,9 @@
     "serve": "^14.2.1",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
+  },
+  "peerDependencies": {
+    "@babel/runtime-corejs3": "^7.23.8",
+    "core-js": "^3.35.0"
   }
 }
