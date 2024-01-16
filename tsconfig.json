@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "lib": ["ES5", "DOM", "ES2022"],
+    "lib": ["ES5", "DOM", "ESNext"],
     "target": "ES5",
-    "module": "ES2022",
+    "module": "ESNext",
     "outDir": "./dist",
     "moduleResolution":"Node10",
     "baseUrl": ".",
