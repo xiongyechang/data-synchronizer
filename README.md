@@ -180,11 +180,17 @@ type Options = {
   engine?: Engine; // default value is 'BroadcastChannel'
 };
 
+export type SendTarget = RegExp | string | undefined;
+
+export type onSendMessageErrorCallback = (error: MessageEvent | DOMException) => void;
+
+export type onSendMessageErrorMethod = (options: Options, callback: onSendMessageErrorCallback) => void;
+
 type Result = {
-  onMessage: (args: any) => void;
-  sendMessage: (o: any, target?: string | RegExp) => void,
-  onSendMessageError: (args: any) => void;
-  close: () => void;
+  onMessage:  (callback: onCallback) => void;
+  sendMessage:  <T extends any>(o: T, target?: SendTarget) => void;
+  onSendMessageError: (callback: onSendMessageErrorCallback) => void;
+  close: (callback: onSendMessageErrorCallback) => void;
 }
 
 type DataSynchronizer = (options: Options) => Result;

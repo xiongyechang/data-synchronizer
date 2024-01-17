@@ -39,7 +39,12 @@ export type EngineOptions = {
   close?: closeMethod,
 }
 
-type Result = Pick<EngineOptions, 'onMessage' | 'sendMessage' | 'onSendMessageError' | 'close'>
+type Result = {
+  onMessage:  (callback: onCallback) => void;
+  sendMessage:  <T extends any>(o: T, target?: SendTarget) => void;
+  onSendMessageError: (callback: onSendMessageErrorCallback) => void;
+  close: (callback: onSendMessageErrorCallback) => void;
+}
 
 export const useDataSynchronizer: (options: Options) => Result;
 
