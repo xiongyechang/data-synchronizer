@@ -9,7 +9,7 @@ import {
   onSendBroadcastChannelMessageError,
 } from 'lib/engine/index';
 import { isSupportBroadcastChannel, isSupportLocalStorage } from 'lib/utils/index';
-import { onCallback, SendTarget, Options, EngineOptions, onSendMessageErrorCallback } from 'types/index';
+import { SendTarget, Options, EngineOptions } from 'types/index';
 
 export { DataSynchronizer } from './DataSynchronizer';
 
@@ -20,7 +20,7 @@ export const useDataSynchronizer = (options: Options) => {
     throw new Error(`the lib isn't support your browser.`);
   }
 
-  const defaultOptions: Omit<Options, 'chan'> = {
+  const defaultOptions: Options = {
     engine: 'BroadcastChannel',
   }
 
@@ -47,13 +47,13 @@ export const useDataSynchronizer = (options: Options) => {
 
   const o = strategies.find(item => item.engine === options.engine && item.support);
 
-  const onMessage = (callback: onCallback) => o.onMessage(options, callback);
+  const onMessage = (chan, callback) => o.onMessage(chan, callback);
 
-  const onMessageError = (callback: onSendMessageErrorCallback) => o.onSendMessageError(options, callback);
+  const onMessageError = (chan, callback) => o.onSendMessageError(chan, callback);
 
-  const sendMessage = (value: any, params: SendTarget) => o.sendMessage(options, value, params);
+  const sendMessage = (chan, value: any, params: SendTarget) => o.sendMessage(chan, value, params);
  
-  const close = () => o.close(options);
+  const close = (chan) => o.close(chan);
 
   return {
     onMessage,

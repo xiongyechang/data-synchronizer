@@ -19,7 +19,6 @@ export class DataSynchronizer {
     if (!isSupport) {
       throw new Error(`The library doesn't support your browser.`);
     }
-    options.chan = btoa(options.chan);
     Object.assign(this.options, options);
     this.initEngine();
   }
@@ -33,19 +32,19 @@ export class DataSynchronizer {
     this.instance = new engineMap[engine](this.options);
   }
 
-  onMessage(callback: onCallback) {
-    this.instance.onMessage(callback);
+  onMessage(chan: string | string[], callback: onCallback) {
+    this.instance.onMessage(chan, callback);
   }
 
-  sendMessage<T extends object>(o: T, params?: SendTarget) {
-    this.instance.sendMessage<T>(o, params);
+  sendMessage<T extends object>(chan: string | string[], o: T, params?: SendTarget) {
+    this.instance.sendMessage<T>(chan, o, params);
   }
 
-  onMessageError(callback: onCallback) {
-    this.instance.onSendMessageError(callback);
+  onMessageError(chan: string | string[], callback: onCallback) {
+    this.instance.onSendMessageError(chan, callback);
   }
 
-  close() {
-    this.instance.close();
+  close(chan: string | string[]) {
+    this.instance.close(chan);
   }
 }

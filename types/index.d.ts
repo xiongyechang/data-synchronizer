@@ -1,15 +1,17 @@
 
 export type onCallback = (args: any) => void;
 
+export type ChanKey = string | string[];
+
 export type onSendMessageErrorCallback = (error: MessageEvent | DOMException) => void;
 
-export type onMessageMethod = (options: Options, callback: onCallback) => void;
+export type onMessageMethod = (chan: ChanKey, callback: onCallback) => void;
 
-export type sendMessageMethod = <T extends any>(options: Options, o: T, target?: SendTarget) => void;
+export type sendMessageMethod = <T extends any>(chan: ChanKey, o: T, target?: SendTarget) => void;
 
-export type onSendMessageErrorMethod = (options: Options, callback: onSendMessageErrorCallback) => void;
+export type onSendMessageErrorMethod = (chan: ChanKey, callback: onSendMessageErrorCallback) => void;
 
-export type closeMethod = (options: Options) => void;
+export type closeMethod = (chan: ChanKey) => void;
 
 export type StorageData = {
   $payload: {
@@ -24,7 +26,6 @@ export type StorageData = {
 export type SendTarget = RegExp | string | undefined;
 
 export type Options = {
-  chan: string,
   engine?: Engine,
 };
 

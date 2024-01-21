@@ -1,4 +1,4 @@
-import { getBabelOutputPlugin } from '@rollup/plugin-babel';
+// import { getBabelOutputPlugin } from '@rollup/plugin-babel';
 import terser from '@rollup/plugin-terser';
 import typescript from '@rollup/plugin-typescript';
 import path from 'node:path';
@@ -34,9 +34,9 @@ export default {
     },
   ],
   plugins: [
-    getBabelOutputPlugin({
-      configFile: resolvePath("babel.config.js"),
-    }),
+    // getBabelOutputPlugin({
+    //   configFile: resolvePath("babel.config.js"),
+    // }),
     typescript({
       tsconfig: resolvePath('tsconfig.json'),
     }),

@@ -22,13 +22,18 @@
     // "http://10.241.39.224:3000"
   // });
 
+  const chan1 = 'chan_1';
+
+  const chan2 = 'chan_2';
+
+  const chan3 = 'chan_3';
+
   const instance = new DataSynchronizer({
-    chan: 'chan_1',
     engine: 'LocalStorage',
     // engine: 'BroadcastChannel'
   });
 
-  instance.onMessageError((event) => {
+  instance.onMessageError(chan1, (event) => {
     console.log(event);
   })
 
@@ -88,10 +93,14 @@
     //   console.log('hello');
     // }
   }
+  
+  instance.sendMessage([chan1, chan2], d);
 
-  console.log(d);
+  // setTimeout(() => {
+    instance.sendMessage([chan1, chan3], d);
+  // }, 100)
 
-  instance.sendMessage(d);
+  
 
   // const instance2 = new DataSynchronizer({
   //   chan: 'chan_1',

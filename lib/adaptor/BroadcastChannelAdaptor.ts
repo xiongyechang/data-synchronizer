@@ -1,26 +1,20 @@
-import { Options, SendTarget, onCallback } from 'types/index';
 import { BaseAdaptor } from './BaseAdaptor';
 import { closeBroadcastChannel, onBroadcastChannelMessage, onSendBroadcastChannelMessageError, sendBroadcastChannelMessage } from 'lib/engine/index';
 
 export class BroadcastChannelAdaptor extends BaseAdaptor {
-
-  constructor(private options: Options) {
-    super();
-  }
-  
-  onMessage(callback: onCallback) {
-    onBroadcastChannelMessage(this.options, callback);
+  onMessage(chan, callback) {
+    onBroadcastChannelMessage(chan, callback);
   }
 
-  sendMessage(o: any, targets: SendTarget) {
-    sendBroadcastChannelMessage(this.options, o, targets);
+  sendMessage(chan, o, targets) {
+    sendBroadcastChannelMessage(chan, o, targets);
   }
 
-  onSendMessageError(callback) {
-    onSendBroadcastChannelMessageError(this.options, callback);
+  onSendMessageError(chan, callback) {
+    onSendBroadcastChannelMessageError(chan, callback);
   }
 
-  close() {
-    closeBroadcastChannel(this.options);
+  close(chan) {
+    closeBroadcastChannel(chan);
   }
 }
