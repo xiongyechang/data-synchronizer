@@ -65,3 +65,7 @@ export const generateRandomAlphaNum = (len: number) => {
   );
   return rdmString.substr(0, len);
 };
+
+export const uniqueArr = (arr: Array<string>) => {
+  return Array.from(new Set(arr));
+}

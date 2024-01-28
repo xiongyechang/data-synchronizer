@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>接受数据--function</title>
+</head>
+<body>
+  
+</body>
+<script type="module">
+  import { useDataSynchronizer } from './index.esm.js';
+  import { chan1, chan3 } from './data.js'
+
+  const { onMessage } = useDataSynchronizer({
+    // engine: 'LocalStorage'
+  });
+
+  onMessage(chan1, (o) => {
+    console.log('onMessage', chan1, o);
+  })
+
+  // const { onMessage: onMessage2 } = useDataSynchronizer({
+  //   engine: 'LocalStorage'
+  // });
+
+  onMessage(chan3, (o) => {
+    console.log('onMessage2', chan3, o);
+  })
+</script>
+</html>

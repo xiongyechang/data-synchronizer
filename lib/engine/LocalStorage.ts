@@ -1,6 +1,4 @@
-import { canInvoke, fromJsonStringData, handleData } from "lib/utils/index";
-
-// const OnMessageMap: Map<string, Function[]> = new Map();
+import { canInvoke, fromJsonStringData, handleData, uniqueArr } from "lib/utils/index";
 
 const OnSendMessageErrorMap: Map<string, Function[]> = new Map();
 
@@ -10,26 +8,14 @@ export const onLocalStorageMessage = (chan: string | string[], callback: Functio
     chan = [chan];
   }
 
-  // chan.forEach((k) => {
-  //   let fns = OnMessageMap.get(k);
-  //   if (fns) {
-  //     fns.push(callback);
-  //   } else {
-  //     fns = [callback];
-  //   }
-  //   OnMessageMap.set(k, fns);
-  // });
-
+  chan = uniqueArr(chan);
+  
   window.addEventListener("storage", (event: StorageEvent) => {
     try {
       const o = fromJsonStringData(event.newValue);
       const invoke = canInvoke(location.href, o.$target);
       if (!invoke) return;
       const { key } = event;
-      // const callbacks = OnMessageMap.get(key);
-      // (callbacks || []).forEach((callback) => {
-      //   callback(o);
-      // });
       if (chan.includes(key)) {
         callback(o)
       }
@@ -45,6 +31,7 @@ export const sendLocalStorageMessage = (chan: string | string[], o, params) => {
   if (typeof chan === "string") {
     chan = [chan];
   }
+  chan = uniqueArr(chan);
   chan.forEach((c) => {
     try {
       window.localStorage.setItem(c, jsonString);
@@ -64,6 +51,7 @@ export const onSendLocalStorageMessageError = (
   if (typeof chan === "string") {
     chan = [chan];
   }
+  chan = uniqueArr(chan);
   chan.forEach((k) => {
     let fns = OnSendMessageErrorMap.get(k);
     if (fns) {
@@ -80,6 +68,7 @@ export const closeLocalStorage = (chan: string| string[]) => {
   if (typeof chan === "string") {
     chan = [chan];
   }
+  chan = uniqueArr(chan);
   localStorage.setItem = (key: string, value) => {
     if (chan.includes(key)) {
       return;

@@ -14,8 +14,9 @@ export type onSendMessageErrorMethod = (chan: ChanKey, callback: onSendMessageEr
 export type closeMethod = (chan: ChanKey) => void;
 
 export type StorageData = {
+  $id: string;
   $payload: {
-    $type: 'string' | 'number' | 'boolean' | 'symbol' | 'object' | 'array' |'function' | 'date' | 'regexp' | 'bigint' | 'set' | 'map' | 'null',
+    $type: 'string' | 'number' | 'boolean' | 'symbol' | 'object' | 'array' | 'function' | 'date' | 'regexp' | 'bigint' | 'set' | 'map' | 'null' | 'undefined',
     $value: any,
   },
   $timezone: number,

@@ -1,4 +1,4 @@
-import { canInvoke, fromJsonStringData, handleData } from "lib/utils/index";
+import { canInvoke, fromJsonStringData, handleData, uniqueArr } from "lib/utils/index";
 
 const ChannelMap: Map<string, BroadcastChannel> = new Map();
 
@@ -6,6 +6,7 @@ export const onBroadcastChannelMessage = (chan: string | string[], callback) => 
   if (typeof chan === "string") {
     chan = [chan];
   }
+  chan = uniqueArr(chan);
   chan.forEach(c => {
     const bc = ChannelMap.get(c) || new BroadcastChannel(c);
     bc.addEventListener('message', (event: MessageEvent<any>) => {
@@ -28,6 +29,7 @@ export const sendBroadcastChannelMessage = (chan: string | string [], o, params)
   if (typeof chan === "string") {
     chan = [chan];
   }
+  chan = uniqueArr(chan);
   const jsonData = handleData(o, params);
   chan.forEach(c => {
     const bc = ChannelMap.get(c) || new BroadcastChannel(c);
@@ -39,6 +41,7 @@ export const onSendBroadcastChannelMessageError = (chan: string | string[], call
   if (typeof chan === "string") {
     chan = [chan];
   }
+  chan = uniqueArr(chan);
   chan.forEach(c => {
     const bc = ChannelMap.get(c) || new BroadcastChannel(c); 
     bc.addEventListener('messageerror', (event: MessageEvent<any>) => {
@@ -52,6 +55,7 @@ export const closeBroadcastChannel = (chan: string | string[]) => {
   if (typeof chan === "string") {
     chan = [chan];
   }
+  chan = uniqueArr(chan);
   chan.forEach(c => {
     const bc = ChannelMap.get(c);
     if (!bc) {

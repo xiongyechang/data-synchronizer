@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发送数据--function</title>
+</head>
+<body>
+  
+</body>
+<script type="module">
+  import { useDataSynchronizer } from './index.esm.js'
+  import { chan1, chan2, chan3 } from './data.js'
+  const { sendMessage } = useDataSynchronizer({
+    // engine: "LocalStorage"
+  });
+  
+  sendMessage([chan1, chan2, chan1], {
+    data: 'hello world'
+  }
+    // /http:\/\/10.241.39.224:3000/
+    // "http://10.241.39.224:3000"
+  );
+
+  sendMessage([chan1, chan3], {
+    data: 'hello world'
+  }
+    // /http:\/\/10.241.39.224:3000/
+    // "http://10.241.39.224:3000"
+  );
+
+  // const { sendMessage: sendMessage2 } = useDataSynchronizer({
+  //   engine: "LocalStorage"
+  // });
+
+  // sendMessage2(chan3)
+</script>
+</html>
