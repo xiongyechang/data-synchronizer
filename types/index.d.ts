@@ -41,16 +41,9 @@ export type EngineOptions = {
   close?: closeMethod,
 }
 
-type Result = {
-  onMessage:  (callback: onCallback) => void;
-  sendMessage:  <T extends any>(o: T, target?: SendTarget) => void;
-  onSendMessageError: (callback: onSendMessageErrorCallback) => void;
-  close: (callback: onSendMessageErrorCallback) => void;
-}
+export const useDataSynchronizer: (options: Options) => EngineOptions;
 
-export const useDataSynchronizer: (options: Options) => Result;
-
-export type DataSynchronizerInstance = Result;
+export type DataSynchronizerInstance = EngineOptions;
 
 export interface DataSynchronizerConstructor<O extends Options = Options> {
   new(o: O): DataSynchronizerInstance;
