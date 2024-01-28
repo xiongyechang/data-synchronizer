@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发送数据--class</title>
+</head>
+<body>
+  
+</body>
+<script type="module">
+  import { DataSynchronizer } from './index.esm.js'
+  import { chan1, chan2, chan3, data } from './data.js'
+
+  const instance = new DataSynchronizer({
+    // engine: 'LocalStorage',
+    // engine: 'BroadcastChannel'
+  });
+
+  instance.onMessageError(chan1, (event) => {
+    console.log(event);
+  })
+
+  console.log(chan1, chan2, chan1)
+  instance.sendMessage([chan1, chan2, chan1], data);
+
+  console.log(chan1, chan3)
+  instance.sendMessage([chan1, chan3], data);
+
+  // const instance2 = new DataSynchronizer({
+  //   engine: 'LocalStorage',
+  //   // engine: 'BroadcastChannel'
+  // });
+
+  // console.log(chan3)
+  // instance2.sendMessage(chan3, '10101010101');
+</script>
+</html>

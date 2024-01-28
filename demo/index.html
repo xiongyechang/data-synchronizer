@@ -9,7 +9,7 @@
   
 </body>
 <script type="module">
-  import { useDataSynchronizer, DataSynchronizer } from './index.esm.min.js';
+  import { useDataSynchronizer, DataSynchronizer } from './index.esm.js';
 
   // formatMap['promise'] = {
   //   from(p) {
@@ -38,18 +38,27 @@
   //   console.log('useDataSynchronizer:onMessage2', o);
   // })
 
+  const chan1 = 'chan_1';
+
+  const chan2 = 'chan_2';
+
+  const chan3 = 'chan_3';
+
   const instance = new DataSynchronizer({
-    chan: 'chan_1',
     // engine: 'BroadcastChannel'
     engine: 'LocalStorage'
   });
 
-  instance.onMessage((o) => {
-    console.log('DataSynchronizer:instance.onMessage', o);
-    const map = o.$payload.map;
-    const { handle } = map.get("function");
-    handle('hello ', 'I am ', 'xiongyechang');
+  instance.onMessage([chan1, chan2], (o) => {
+    console.log('DataSynchronizer:instance.onMessage1', o);
+    // const map = o.$payload.map;
+    // const { handle } = map.get("function");
+    // handle('hello ', 'I am ', 'xiongyechang');
     // o.$payload.printData('hello everyone', 'today is', 'wonsday');
+  })
+
+  instance.onMessage([chan1, chan3], (o) => {
+    console.log('DataSynchronizer:instance.onMessage2', o);
   })
 
   // instance.close();

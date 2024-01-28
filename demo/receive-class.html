@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>接受数据--class</title>
+</head>
+<body>
+  
+</body>
+<script type="module">
+  import { DataSynchronizer } from './index.esm.js';
+  import { chan1, chan3 } from './data.js'
+
+  const instance = new DataSynchronizer({
+    // engine: 'BroadcastChannel'
+    // engine: 'LocalStorage'
+  });
+
+  instance.onMessage(chan1, (o) => {
+    console.log(chan1, o);
+  })
+
+  instance.onMessage(chan3, (o) => {
+    console.log(chan3, o);
+  })
+</script>
+</html>

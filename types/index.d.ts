@@ -1,19 +1,22 @@
 
 export type onCallback = (args: any) => void;
 
+export type ChanKey = string | string[];
+
 export type onSendMessageErrorCallback = (error: MessageEvent | DOMException) => void;
 
-export type onMessageMethod = (options: Options, callback: onCallback) => void;
+export type onMessageMethod = (chan: ChanKey, callback: onCallback) => void;
 
-export type sendMessageMethod = <T extends any>(options: Options, o: T, target?: SendTarget) => void;
+export type sendMessageMethod = <T extends any>(chan: ChanKey, o: T, target?: SendTarget) => void;
 
-export type onSendMessageErrorMethod = (options: Options, callback: onSendMessageErrorCallback) => void;
+export type onSendMessageErrorMethod = (chan: ChanKey, callback: onSendMessageErrorCallback) => void;
 
-export type closeMethod = (options: Options) => void;
+export type closeMethod = (chan: ChanKey) => void;
 
 export type StorageData = {
+  $id: string;
   $payload: {
-    $type: 'string' | 'number' | 'boolean' | 'symbol' | 'object' | 'array' |'function' | 'date' | 'regexp' | 'bigint' | 'set' | 'map' | 'null',
+    $type: 'string' | 'number' | 'boolean' | 'symbol' | 'object' | 'array' | 'function' | 'date' | 'regexp' | 'bigint' | 'set' | 'map' | 'null' | 'undefined',
     $value: any,
   },
   $timezone: number,
@@ -24,7 +27,6 @@ export type StorageData = {
 export type SendTarget = RegExp | string | undefined;
 
 export type Options = {
-  chan: string,
   engine?: Engine,
 };
 
@@ -39,16 +41,9 @@ export type EngineOptions = {
   close?: closeMethod,
 }
 
-type Result = {
-  onMessage:  (callback: onCallback) => void;
-  sendMessage:  <T extends any>(o: T, target?: SendTarget) => void;
-  onSendMessageError: (callback: onSendMessageErrorCallback) => void;
-  close: (callback: onSendMessageErrorCallback) => void;
-}
+export const useDataSynchronizer: (options: Options) => EngineOptions;
 
-export const useDataSynchronizer: (options: Options) => Result;
-
-export type DataSynchronizerInstance = Result;
+export type DataSynchronizerInstance = EngineOptions;
 
 export interface DataSynchronizerConstructor<O extends Options = Options> {
   new(o: O): DataSynchronizerInstance;

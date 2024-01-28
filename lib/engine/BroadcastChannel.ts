@@ -1,51 +1,68 @@
-import { canInvoke, fromJsonStringData, handleData } from "lib/utils/index";
-import { onMessageMethod, sendMessageMethod, onSendMessageErrorMethod, closeMethod } from "types/index";
+import { canInvoke, fromJsonStringData, handleData, uniqueArr } from "lib/utils/index";
 
-const map: Record<string, BroadcastChannel> = {};
+const ChannelMap: Map<string, BroadcastChannel> = new Map();
 
-export const onBroadcastChannelMessage: onMessageMethod = (options, callback) => {
-  let { chan } = options;
-  const channel = map[chan];
-  const bc = channel || new BroadcastChannel(chan);
-  bc.addEventListener('message', (event: MessageEvent<any>) => {
-    try {
-      const data = fromJsonStringData(event.data);
-      const source = data.$origin;
-      if (source === location.href) return;
-      const invoke = canInvoke(location.href, data.$target);
-      if (!invoke) return;
-      typeof callback === 'function' && callback(data);
-    } catch (error) {
-      console.error(error);
-    }
-  });
-  !channel &&  (map[chan] = bc);
-}
-
-export const sendBroadcastChannelMessage: sendMessageMethod = (options, o, params) => {
-  const { chan } = options;
-  const jsonData = handleData(o, params);
-  const channel = map[chan];
-  const bc = channel || new BroadcastChannel(chan);
-  bc.postMessage(JSON.stringify(jsonData));
-  !channel &&  (map[chan] = bc);
-}
-
-export const onSendBroadcastChannelMessageError: onSendMessageErrorMethod = (options, callback) => {
-  const { chan } = options;
-  const channel = map[chan];
-  const bc = channel || new BroadcastChannel(chan);
-  bc.addEventListener('messageerror', (event: MessageEvent<any>) => {
-      typeof callback === 'function' && callback(event);
-  });
-  !channel && (map[chan] = bc);
-}
-
-export const closeBroadcastChannel: closeMethod = (options) => {
-  const { chan } = options;
-  const channel = map[chan];
-  if (!channel) {
-    throw new Error(`the channel named ${chan} isn't exist`);
+export const onBroadcastChannelMessage = (chan: string | string[], callback) => {
+  if (typeof chan === "string") {
+    chan = [chan];
   }
-  channel.close();
+  chan = uniqueArr(chan);
+  chan.forEach(c => {
+    const bc = ChannelMap.get(c) || new BroadcastChannel(c);
+    bc.addEventListener('message', (event: MessageEvent<any>) => {
+      try {
+        const data = fromJsonStringData(event.data);
+        const source = data.$origin;
+        if (source === location.href) return;
+        const invoke = canInvoke(location.href, data.$target);
+        if (!invoke) return;
+        typeof callback === 'function' && callback(data);
+      } catch (error) {
+        console.error(error);
+      }
+    });
+    ChannelMap.set(c, bc);
+  })
+}
+
+export const sendBroadcastChannelMessage = (chan: string | string [], o, params) => {
+  if (typeof chan === "string") {
+    chan = [chan];
+  }
+  chan = uniqueArr(chan);
+  const jsonData = handleData(o, params);
+  chan.forEach(c => {
+    const bc = ChannelMap.get(c) || new BroadcastChannel(c);
+    bc.postMessage(JSON.stringify(jsonData));
+  })
+}
+
+export const onSendBroadcastChannelMessageError = (chan: string | string[], callback) => {
+  if (typeof chan === "string") {
+    chan = [chan];
+  }
+  chan = uniqueArr(chan);
+  chan.forEach(c => {
+    const bc = ChannelMap.get(c) || new BroadcastChannel(c); 
+    bc.addEventListener('messageerror', (event: MessageEvent<any>) => {
+      typeof callback === 'function' && callback(event);
+    });
+    ChannelMap.set(c, bc);
+  })
+}
+
+export const closeBroadcastChannel = (chan: string | string[]) => {
+  if (typeof chan === "string") {
+    chan = [chan];
+  }
+  chan = uniqueArr(chan);
+  chan.forEach(c => {
+    const bc = ChannelMap.get(c);
+    if (!bc) {
+      throw new Error(`the channel named ${chan} isn't exist`);
+    }
+    bc.close();
+    ChannelMap.delete(c);
+  })
+  
 }

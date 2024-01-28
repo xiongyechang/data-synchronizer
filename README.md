@@ -57,15 +57,14 @@ const list = ref<Listitem[]>([
 ])
 
 const { onMessage, onSendMessageError, close } = useDataSynchronizer({
-  chan,
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
 
-onSendMessageError((event: DOMException | MessageEvent) => {
+onSendMessageError(chan, (event: DOMException | MessageEvent) => {
   console.error(event)
 });
 
-onMessage((params: Listitem) => {
+onMessage(chan, (params: Listitem) => {
   const target = list.value.find(item => item.id === params.id);
   target && target.like = params.like;
   // the like of target will decrease by 1.
@@ -82,7 +81,6 @@ import { useDataSynchronizer } from 'data-synchronizer';
 const chan = 'cancelLike'; // the chan must be same with previous.
 
 const { sendMessage } = useDataSynchronizer({
-  chan,
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
 
@@ -94,7 +92,7 @@ type Listitem = {
 
 const cancelLike = (item: Listitem) => {
   item.like--;
-  sendMessage(item);
+  sendMessage(chan, item);
 }
 ```
 
@@ -127,15 +125,14 @@ const list = ref<Listitem[]>([
 ])
 
 const instance = new DataSynchronizer({
-  chan // required
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
 
-instance.onSendMessageError((event: DOMException | MessageEvent) => {
+instance.onSendMessageError(chan, (event: DOMException | MessageEvent) => {
   console.error(event)
 });
 
-instance.onMessage((params: Listitem) => {
+instance.onMessage(chan, (params: Listitem) => {
   const target = list.value.find(item => item.id === params.id);
   target && target.like = params.like;
   // the like of target will decrease by 1.
@@ -153,7 +150,6 @@ import { DataSynchronizer } from 'data-synchronizer';
 const chan = 'cancelLike'; // the chan must be same with previous.
 
 const instance = new DataSynchronizer({
-  chan,
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
 
@@ -165,7 +161,7 @@ type Listitem = {
 
 const cancelLike = (item: Listitem) => {
   item.like--;
-  instance.sendMessage(item);
+  instance.sendMessage(chan, item);
 }
 ```
 
@@ -175,25 +171,36 @@ const cancelLike = (item: Listitem) => {
 
 type Engine = 'LocalStorage' | 'BroadcastChannel'
 
+export type ChanKey = string | string[];
+
 type Options = {
-  chan: string;
   engine?: Engine; // default value is 'BroadcastChannel'
 };
 
-export type SendTarget = RegExp | string | undefined;
+export type onCallback = (args: any) => void;
 
 export type onSendMessageErrorCallback = (error: MessageEvent | DOMException) => void;
 
-export type onSendMessageErrorMethod = (options: Options, callback: onSendMessageErrorCallback) => void;
+export type onMessageMethod = (chan: ChanKey, callback: onCallback) => void;
 
-type Result = {
-  onMessage:  (callback: onCallback) => void;
-  sendMessage:  <T extends any>(o: T, target?: SendTarget) => void;
-  onSendMessageError: (callback: onSendMessageErrorCallback) => void;
-  close: (callback: onSendMessageErrorCallback) => void;
+export type sendMessageMethod = <T extends any>(chan: ChanKey, o: T, target?: SendTarget) => void;
+
+export type onSendMessageErrorMethod = (chan: ChanKey, callback: onSendMessageErrorCallback) => void;
+
+export type closeMethod = (chan: ChanKey) => void;
+
+export type SendTarget = RegExp | string | undefined;
+
+export type EngineOptions = {
+  engine: Engine,
+  support: boolean;
+  onMessage?: onMessageMethod,
+  sendMessage?: sendMessageMethod,
+  onSendMessageError?: onSendMessageErrorMethod,
+  close?: closeMethod,
 }
 
-type DataSynchronizer = (options: Options) => Result;
+type DataSynchronizer = (options: Options) => EngineOptions;
 ```
 
 ## Future

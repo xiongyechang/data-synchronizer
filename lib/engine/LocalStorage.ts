@@ -1,61 +1,86 @@
-import { canInvoke, fromJsonStringData, handleData } from "lib/utils/index";
-import { Options, onMessageMethod, sendMessageMethod, onSendMessageErrorMethod, onCallback, closeMethod } from "types/index";
+import { canInvoke, fromJsonStringData, handleData, uniqueArr } from "lib/utils/index";
 
-const map: Record<string, onCallback[]> = {};
+const OnSendMessageErrorMap: Map<string, Function[]> = new Map();
 
-export const onLocalStorageMessage: onMessageMethod = (options: Options, callback) => {
-  const { chan } = options;
-  window.addEventListener('storage', (event: StorageEvent) => {
-    if (event.key === chan) {
-      try {
-        const o = fromJsonStringData(event.newValue);
-        const invoke = canInvoke(location.href, o.$target);
-        if (!invoke) return;
-        typeof callback === 'function' && callback(o);
-      } catch (error) {
-        console.error(error);
+export const onLocalStorageMessage = (chan: string | string[], callback: Function) => {
+
+  if (typeof chan === "string") {
+    chan = [chan];
+  }
+
+  chan = uniqueArr(chan);
+  
+  window.addEventListener("storage", (event: StorageEvent) => {
+    try {
+      const o = fromJsonStringData(event.newValue);
+      const invoke = canInvoke(location.href, o.$target);
+      if (!invoke) return;
+      const { key } = event;
+      if (chan.includes(key)) {
+        callback(o)
       }
+    } catch (error) {
+      console.error(error);
     }
   });
-}
+};
 
-export const sendLocalStorageMessage: sendMessageMethod = (options, o, params) => {
-  const { chan } = options;
+export const sendLocalStorageMessage = (chan: string | string[], o, params) => {
   const res = handleData(o, params);
   const jsonString = JSON.stringify(res);
-  try {
-    window.localStorage.setItem(chan, jsonString);
-  } catch (error) {
-    const callbacks = map[chan] || [];
-    (callbacks || []).forEach(callback => {
-      callback(error);
-    })
+  if (typeof chan === "string") {
+    chan = [chan];
   }
-}
-
-export const onSendLocalStorageMessageError: onSendMessageErrorMethod = (options, callback) => {
-  const { chan } = options;
-  if (map[chan] instanceof Array) {
-    map[chan].push(callback);
-  } else {
-    map[chan] = [callback];
-  }
-}
-
-export const closeLocalStorage: closeMethod = (options) => {
-  const { chan } = options;
-  const setItem = localStorage.setItem;
-  localStorage.setItem = (key: string, value) => {
-    if (key !== chan) {
-      setItem(key, value)
+  chan = uniqueArr(chan);
+  chan.forEach((c) => {
+    try {
+      window.localStorage.setItem(c, jsonString);
+    } catch (error) {
+      const callbacks = OnSendMessageErrorMap.get(c);
+      (callbacks || []).forEach((callback) => {
+        callback(error);
+      });
     }
+  });
+};
+
+export const onSendLocalStorageMessageError = (
+  chan: string | string[],
+  callback
+) => {
+  if (typeof chan === "string") {
+    chan = [chan];
   }
+  chan = uniqueArr(chan);
+  chan.forEach((k) => {
+    let fns = OnSendMessageErrorMap.get(k);
+    if (fns) {
+      fns.push(callback);
+    } else {
+      fns = [callback];
+    }
+    OnSendMessageErrorMap.set(k, fns);
+  });
+};
+
+export const closeLocalStorage = (chan: string| string[]) => {
+  const setItem = localStorage.setItem;
+  if (typeof chan === "string") {
+    chan = [chan];
+  }
+  chan = uniqueArr(chan);
+  localStorage.setItem = (key: string, value) => {
+    if (chan.includes(key)) {
+      return;
+    }
+    setItem(key, value);
+  };
 
   const getItem = localStorage.getItem;
-
   localStorage.getItem = (key: string) => {
-    if (key !== chan) {
-      return getItem(key)
+    if (chan.includes(key)) {
+      return;
     }
-  }
-}
+    return getItem(key);
+  };
+};

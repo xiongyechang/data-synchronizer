@@ -1,26 +1,22 @@
-import { Options, SendTarget, onCallback } from 'types/index';
+import { SendTarget, onCallback } from 'types/index';
 import { BaseAdaptor } from './BaseAdaptor';
 import { closeLocalStorage, onLocalStorageMessage, onSendLocalStorageMessageError, sendLocalStorageMessage } from 'lib/engine/index';
 
 export class LocalStorageAdaptor extends BaseAdaptor {
 
-  constructor(private options: Options) {
-    super()
+  onMessage(chan, callback) {
+    onLocalStorageMessage(chan, callback);
   }
 
-  onMessage(callback: onCallback) {
-    onLocalStorageMessage(this.options, callback);
+  onSendMessageError(chan, callback) {
+    onSendLocalStorageMessageError(chan, callback);
   }
 
-  onSendMessageError(callback) {
-    onSendLocalStorageMessageError(this.options, callback);
+  sendMessage(chan, o, targets) {
+    sendLocalStorageMessage(chan, o, targets)
   }
 
-  sendMessage(o: any, targets: SendTarget) {
-    sendLocalStorageMessage(this.options, o, targets)
-  }
-
-  close() {
-    closeLocalStorage(this.options);
+  close(chan) {
+    closeLocalStorage(chan);
   }
 }
