@@ -35,10 +35,10 @@ export type Engine = 'LocalStorage' | 'BroadcastChannel'
 export type EngineOptions = {
   engine: Engine,
   support: boolean;
-  onMessage?: onMessageMethod,
-  sendMessage?: sendMessageMethod,
-  onSendMessageError?: onSendMessageErrorMethod,
-  close?: closeMethod,
+  onMessage: onMessageMethod,
+  sendMessage: sendMessageMethod,
+  onSendMessageError: onSendMessageErrorMethod,
+  close: closeMethod,
 }
 
 export const useDataSynchronizer: (options: Options) => EngineOptions;
