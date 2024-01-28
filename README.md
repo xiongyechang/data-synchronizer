@@ -194,10 +194,10 @@ export type SendTarget = RegExp | string | undefined;
 export type EngineOptions = {
   engine: Engine,
   support: boolean;
-  onMessage?: onMessageMethod,
-  sendMessage?: sendMessageMethod,
-  onSendMessageError?: onSendMessageErrorMethod,
-  close?: closeMethod,
+  onMessage: onMessageMethod,
+  sendMessage: sendMessageMethod,
+  onSendMessageError: onSendMessageErrorMethod,
+  close: closeMethod,
 }
 
 type DataSynchronizer = (options: Options) => EngineOptions;
