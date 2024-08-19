@@ -1,6 +1,6 @@
 {
   "name": "data-synchronizer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": false,
   "description": "A common library for transferring data to multi-page applications",
   "scripts": {
