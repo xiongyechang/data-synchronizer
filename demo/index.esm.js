@@ -1,42 +1,27 @@
-"use strict";
-
-var _Object$defineProperty = require("@babel/runtime-corejs3/core-js-stable/object/define-property");
-var _interopRequireDefault = require("@babel/runtime-corejs3/helpers/interopRequireDefault");
-_Object$defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.useDataSynchronizer = exports.DataSynchronizer = void 0;
-require("core-js/modules/es.function.name.js");
-require("core-js/modules/es.symbol.js");
-require("core-js/modules/es.symbol.description.js");
-require("core-js/modules/es.object.keys.js");
-require("core-js/modules/es.object.to-string.js");
-require("core-js/modules/es.regexp.to-string.js");
-require("core-js/modules/es.regexp.constructor.js");
-require("core-js/modules/es.regexp.exec.js");
-var _setPrototypeOf = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/set-prototype-of"));
-var _create = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/create"));
-var _assign2 = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/assign"));
-var _indexOf = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/index-of"));
-var _getOwnPropertySymbols = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/get-own-property-symbols"));
-var _symbol = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/symbol"));
-var _iterator = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/symbol/iterator"));
-var _getIteratorMethod2 = _interopRequireDefault(require("@babel/runtime-corejs3/core-js/get-iterator-method"));
-var _for = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/symbol/for"));
-var _forEach = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/for-each"));
-var _entries = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/object/entries"));
-var _startsWith = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/starts-with"));
-var _map = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/map"));
-var _from = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/array/from"));
-var _set = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/set"));
-var _entries2 = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/entries"));
-var _map2 = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/map"));
-var _reduce = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/reduce"));
-var _now = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/date/now"));
-var _stringify = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/json/stringify"));
-var _includes = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/includes"));
-var _find = _interopRequireDefault(require("@babel/runtime-corejs3/core-js-stable/instance/find"));
-var _context4;
+import "core-js/modules/es.object.set-prototype-of.js";
+import "core-js/modules/es.object.assign.js";
+import "core-js/modules/es.symbol.js";
+import "core-js/modules/es.symbol.description.js";
+import "core-js/modules/es.object.to-string.js";
+import "core-js/modules/es.symbol.iterator.js";
+import "core-js/modules/es.array.iterator.js";
+import "core-js/modules/es.string.iterator.js";
+import "core-js/modules/web.dom-collections.iterator.js";
+import "core-js/modules/es.function.name.js";
+import "core-js/modules/web.dom-collections.for-each.js";
+import "core-js/modules/es.object.entries.js";
+import "core-js/modules/es.object.keys.js";
+import "core-js/modules/es.regexp.to-string.js";
+import "core-js/modules/es.string.starts-with.js";
+import "core-js/modules/es.array.map.js";
+import "core-js/modules/es.array.from.js";
+import "core-js/modules/es.set.js";
+import "core-js/modules/es.map.js";
+import "core-js/modules/es.regexp.constructor.js";
+import "core-js/modules/es.regexp.exec.js";
+import "core-js/modules/es.array.includes.js";
+import "core-js/modules/es.string.includes.js";
+import "core-js/modules/es.array.find.js";
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -54,7 +39,7 @@ PERFORMANCE OF THIS SOFTWARE.
 /* global Reflect, Promise, SuppressedError, Symbol */
 
 var _extendStatics = function extendStatics(d, b) {
-  _extendStatics = _setPrototypeOf.default || {
+  _extendStatics = Object.setPrototypeOf || {
     __proto__: []
   } instanceof Array && function (d, b) {
     d.__proto__ = b;
@@ -69,10 +54,10 @@ function __extends(d, b) {
   function __() {
     this.constructor = d;
   }
-  d.prototype = b === null ? (0, _create.default)(b) : (__.prototype = b.prototype, new __());
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 var _assign = function __assign() {
-  _assign = _assign2.default || function __assign(t) {
+  _assign = Object.assign || function __assign(t) {
     for (var s, i = 1, n = arguments.length; i < n; i++) {
       s = arguments[i];
       for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
@@ -83,14 +68,14 @@ var _assign = function __assign() {
 };
 function __rest(s, e) {
   var t = {};
-  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && (0, _indexOf.default)(e).call(e, p) < 0) t[p] = s[p];
-  if (s != null && typeof _getOwnPropertySymbols.default === "function") for (var i = 0, p = (0, _getOwnPropertySymbols.default)(s); i < p.length; i++) {
-    if ((0, _indexOf.default)(e).call(e, p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+  for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+  if (s != null && typeof Object.getOwnPropertySymbols === "function") for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+    if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
   }
   return t;
 }
 function __values(o) {
-  var s = typeof _symbol.default === "function" && _iterator.default,
+  var s = typeof Symbol === "function" && Symbol.iterator,
     m = s && o[s],
     i = 0;
   if (m) return m.call(o);
@@ -106,7 +91,7 @@ function __values(o) {
   throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 }
 function __read(o, n) {
-  var m = typeof _symbol.default === "function" && (0, _getIteratorMethod2.default)(o);
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
   if (!m) return o;
   var i = m.call(o),
     r,
@@ -172,7 +157,7 @@ var to$a = function to$a(value) {
   };
 };
 var from$a = function from$a(value) {
-  return (0, _for.default)(value);
+  return Symbol.for(value);
 };
 var sym = [$type$a, from$a, to$a];
 var $type$9 = 'bigint';
@@ -188,9 +173,8 @@ var from$9 = function from$9(value) {
 var bi = [$type$9, from$9, to$9];
 var $type$8 = 'object';
 var to$8 = function to$8(value) {
-  var _context;
   var o = {};
-  (0, _forEach.default)(_context = (0, _entries.default)(value)).call(_context, function (_a) {
+  Object.entries(value).forEach(function (_a) {
     var _b = __read(_a, 2),
       key = _b[0],
       value = _b[1];
@@ -202,11 +186,10 @@ var to$8 = function to$8(value) {
   };
 };
 var from$8 = function from$8(value) {
-  var _context2;
   // fix: BroadcastChannel engine, the value will be object type, but localstorage engine it is string type
   var o = typeof value === 'string' ? JSON.parse(value) : value;
   var r = {};
-  (0, _forEach.default)(_context2 = (0, _entries.default)(o)).call(_context2, function (_a) {
+  Object.entries(o).forEach(function (_a) {
     var _b = __read(_a, 2),
       key = _b[0],
       value = _b[1];
@@ -237,14 +220,14 @@ var to$6 = function to$6(value) {
   };
 };
 var from$6 = function from$6(value) {
-  var funcBody = (0, _startsWith.default)(value).call(value, 'function') ? value : 'function ' + value;
+  var funcBody = value.startsWith('function') ? value : 'function ' + value;
   return new Function('...rest', 'return (' + funcBody + ')(...rest)');
 };
 var func = [$type$6, from$6, to$6];
 var $type$5 = 'array';
 var to$5 = function to$5(value) {
   var arr = [];
-  (0, _forEach.default)(value).call(value, function (item, i) {
+  value.forEach(function (item, i) {
     arr[i] = toJsonString(item);
   });
   return {
@@ -255,7 +238,7 @@ var to$5 = function to$5(value) {
 var from$5 = function from$5(value) {
   var arr = typeof value === 'string' ? JSON.parse(value) : value;
   var r = [];
-  (0, _forEach.default)(arr).call(arr, function (item, i) {
+  arr.forEach(function (item, i) {
     var $type = item.$type,
       $value = item.$value;
     r[i] = formatMap[$type].from($value);
@@ -265,8 +248,7 @@ var from$5 = function from$5(value) {
 var arr = [$type$5, from$5, to$5];
 var $type$4 = 'set';
 var to$4 = function to$4(value) {
-  var _context3;
-  var arr = (0, _map.default)(_context3 = (0, _from.default)(value)).call(_context3, function (item) {
+  var arr = Array.from(value).map(function (item) {
     return toJsonString(item);
   });
   return {
@@ -276,8 +258,8 @@ var to$4 = function to$4(value) {
 };
 var from$4 = function from$4(value) {
   var o = typeof value === 'string' ? JSON.parse(value) : value;
-  var s = new _set.default();
-  (0, _forEach.default)(o).call(o, function (item) {
+  var s = new Set();
+  o.forEach(function (item) {
     var $type = item.$type,
       $value = item.$value;
     var it = formatMap[$type].from($value);
@@ -289,7 +271,7 @@ var se = [$type$4, from$4, to$4];
 var $type$3 = 'map';
 var to$3 = function to$3(value) {
   var e_1, _a;
-  var entries = (0, _entries2.default)(value).call(value);
+  var entries = value.entries();
   // const obj: Record<any, V> = {};
   var arr = [];
   try {
@@ -321,8 +303,8 @@ var to$3 = function to$3(value) {
 };
 var from$3 = function from$3(value) {
   var o = typeof value === 'string' ? JSON.parse(value) : value;
-  var m = new _map2.default();
-  (0, _forEach.default)(o).call(o, function (_a) {
+  var m = new Map();
+  o.forEach(function (_a) {
     var _b = __read(_a, 2),
       k = _b[0],
       v = _b[1];
@@ -370,13 +352,13 @@ var from = function from() {
   return undefined;
 };
 var und = [$type, from, to];
-var formatMap = (0, _reduce.default)(_context4 = [str, bool, num, sym, bi, obj, nul, func, arr, se, ma, dat, reg, und]).call(_context4, function (cur, next) {
+var formatMap = [str, bool, num, sym, bi, obj, nul, func, arr, se, ma, dat, reg, und].reduce(function (cur, next) {
   var _a;
   var _b = __read(next, 3),
     $type = _b[0],
     from = _b[1],
     to = _b[2];
-  (0, _assign2.default)(cur, (_a = {},
+  Object.assign(cur, (_a = {},
   // @ts-ignore
   _a[$type] = {
     from: from,
@@ -411,7 +393,7 @@ var toJsonString = function toJsonString(payload) {
 var handleData = function handleData(payload, target) {
   var $payload = toJsonString(payload);
   return {
-    $timezone: (0, _now.default)(),
+    $timezone: Date.now(),
     $origin: location.href,
     $payload: $payload,
     $target: typeof target === "string" ? target : target === null || target === void 0 ? void 0 : target.source,
@@ -428,15 +410,15 @@ var generateRandomAlphaNum = function generateRandomAlphaNum(len) {
   return rdmString.substr(0, len);
 };
 var uniqueArr = function uniqueArr(arr) {
-  return (0, _from.default)(new _set.default(arr));
+  return Array.from(new Set(arr));
 };
-var ChannelMap = new _map2.default();
+var ChannelMap = new Map();
 var onBroadcastChannelMessage = function onBroadcastChannelMessage(chan, callback) {
   if (typeof chan === "string") {
     chan = [chan];
   }
   chan = uniqueArr(chan);
-  (0, _forEach.default)(chan).call(chan, function (c) {
+  chan.forEach(function (c) {
     var bc = ChannelMap.get(c) || new BroadcastChannel(c);
     bc.addEventListener('message', function (event) {
       try {
@@ -459,9 +441,9 @@ var sendBroadcastChannelMessage = function sendBroadcastChannelMessage(chan, o, 
   }
   chan = uniqueArr(chan);
   var jsonData = handleData(o, params);
-  (0, _forEach.default)(chan).call(chan, function (c) {
+  chan.forEach(function (c) {
     var bc = ChannelMap.get(c) || new BroadcastChannel(c);
-    bc.postMessage((0, _stringify.default)(jsonData));
+    bc.postMessage(JSON.stringify(jsonData));
   });
 };
 var onSendBroadcastChannelMessageError = function onSendBroadcastChannelMessageError(chan, callback) {
@@ -469,7 +451,7 @@ var onSendBroadcastChannelMessageError = function onSendBroadcastChannelMessageE
     chan = [chan];
   }
   chan = uniqueArr(chan);
-  (0, _forEach.default)(chan).call(chan, function (c) {
+  chan.forEach(function (c) {
     var bc = ChannelMap.get(c) || new BroadcastChannel(c);
     bc.addEventListener('messageerror', function (event) {
       typeof callback === 'function' && callback(event);
@@ -482,7 +464,7 @@ var closeBroadcastChannel = function closeBroadcastChannel(chan) {
     chan = [chan];
   }
   chan = uniqueArr(chan);
-  (0, _forEach.default)(chan).call(chan, function (c) {
+  chan.forEach(function (c) {
     var bc = ChannelMap.get(c);
     if (!bc) {
       throw new Error("the channel named ".concat(chan, " isn't exist"));
@@ -491,40 +473,38 @@ var closeBroadcastChannel = function closeBroadcastChannel(chan) {
     ChannelMap.delete(c);
   });
 };
-var OnSendMessageErrorMap = new _map2.default();
+var OnSendMessageErrorMap = new Map();
 var onLocalStorageMessage = function onLocalStorageMessage(chan, callback) {
   if (typeof chan === "string") {
     chan = [chan];
   }
   chan = uniqueArr(chan);
   window.addEventListener("storage", function (event) {
+    var key = event.key;
+    if (!chan.includes(key)) return;
     try {
       var o = fromJsonStringData(event.newValue);
       var invoke = canInvoke(location.href, o.$target);
       if (!invoke) return;
-      var key = event.key;
-      if ((0, _includes.default)(chan).call(chan, key)) {
-        callback(o);
-      }
+      callback(o);
     } catch (error) {
       console.error(error);
     }
   });
 };
 var sendLocalStorageMessage = function sendLocalStorageMessage(chan, o, params) {
-  var res = handleData(o, params);
-  var jsonString = (0, _stringify.default)(res);
   if (typeof chan === "string") {
     chan = [chan];
   }
   chan = uniqueArr(chan);
-  (0, _forEach.default)(chan).call(chan, function (c) {
+  var res = handleData(o, params);
+  var jsonString = JSON.stringify(res);
+  chan.forEach(function (c) {
     try {
       window.localStorage.setItem(c, jsonString);
     } catch (error) {
-      var _context5;
       var callbacks = OnSendMessageErrorMap.get(c);
-      (0, _forEach.default)(_context5 = callbacks || []).call(_context5, function (callback) {
+      (callbacks || []).forEach(function (callback) {
         callback(error);
       });
     }
@@ -535,7 +515,7 @@ var onSendLocalStorageMessageError = function onSendLocalStorageMessageError(cha
     chan = [chan];
   }
   chan = uniqueArr(chan);
-  (0, _forEach.default)(chan).call(chan, function (k) {
+  chan.forEach(function (k) {
     var fns = OnSendMessageErrorMap.get(k);
     if (fns) {
       fns.push(callback);
@@ -552,14 +532,14 @@ var closeLocalStorage = function closeLocalStorage(chan) {
   }
   chan = uniqueArr(chan);
   localStorage.setItem = function (key, value) {
-    if ((0, _includes.default)(chan).call(chan, key)) {
+    if (chan.includes(key)) {
       return;
     }
     setItem(key, value);
   };
   var getItem = localStorage.getItem;
   localStorage.getItem = function (key) {
-    if ((0, _includes.default)(chan).call(chan, key)) {
+    if (chan.includes(key)) {
       return;
     }
     return getItem(key);
@@ -608,7 +588,7 @@ var BroadcastChannelAdaptor = /** @class */function (_super) {
   return BroadcastChannelAdaptor;
 }(BaseAdaptor);
 var isSupport$1 = isSupportBroadcastChannel || isSupportLocalStorage;
-var DataSynchronizer = exports.DataSynchronizer = /** @class */function () {
+var DataSynchronizer = /** @class */function () {
   function DataSynchronizer(options) {
     this.options = {
       engine: 'BroadcastChannel'
@@ -616,7 +596,7 @@ var DataSynchronizer = exports.DataSynchronizer = /** @class */function () {
     if (!isSupport$1) {
       throw new Error("The library doesn't support your browser.");
     }
-    (0, _assign2.default)(this.options, options);
+    Object.assign(this.options, options);
     this.initEngine();
   }
   DataSynchronizer.prototype.initEngine = function () {
@@ -642,14 +622,14 @@ var DataSynchronizer = exports.DataSynchronizer = /** @class */function () {
   return DataSynchronizer;
 }();
 var isSupport = isSupportBroadcastChannel || isSupportLocalStorage;
-var useDataSynchronizer = exports.useDataSynchronizer = function useDataSynchronizer(options) {
+var useDataSynchronizer = function useDataSynchronizer(options) {
   if (!isSupport) {
     throw new Error("the lib isn't support your browser.");
   }
   var defaultOptions = {
     engine: 'BroadcastChannel'
   };
-  options = (0, _assign2.default)(defaultOptions, options);
+  options = Object.assign(defaultOptions, options);
   var strategies = [{
     engine: 'BroadcastChannel',
     support: isSupportBroadcastChannel,
@@ -665,7 +645,7 @@ var useDataSynchronizer = exports.useDataSynchronizer = function useDataSynchron
     onSendMessageError: onSendLocalStorageMessageError,
     close: closeLocalStorage
   }];
-  var o = (0, _find.default)(strategies).call(strategies, function (item) {
+  var o = strategies.find(function (item) {
     return item.engine === options.engine && item.support;
   });
   var onMessage = function onMessage(chan, callback) {
@@ -687,3 +667,4 @@ var useDataSynchronizer = exports.useDataSynchronizer = function useDataSynchron
     close: close
   };
 };
+export { DataSynchronizer, useDataSynchronizer };

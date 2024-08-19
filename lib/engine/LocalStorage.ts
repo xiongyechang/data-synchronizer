@@ -11,14 +11,13 @@ export const onLocalStorageMessage = (chan: string | string[], callback: Functio
   chan = uniqueArr(chan);
   
   window.addEventListener("storage", (event: StorageEvent) => {
+    const { key } = event;
+    if (!chan.includes(key)) return;
     try {
       const o = fromJsonStringData(event.newValue);
       const invoke = canInvoke(location.href, o.$target);
       if (!invoke) return;
-      const { key } = event;
-      if (chan.includes(key)) {
-        callback(o)
-      }
+      callback(o);
     } catch (error) {
       console.error(error);
     }
@@ -26,12 +25,12 @@ export const onLocalStorageMessage = (chan: string | string[], callback: Functio
 };
 
 export const sendLocalStorageMessage = (chan: string | string[], o, params) => {
-  const res = handleData(o, params);
-  const jsonString = JSON.stringify(res);
   if (typeof chan === "string") {
     chan = [chan];
   }
   chan = uniqueArr(chan);
+  const res = handleData(o, params);
+  const jsonString = JSON.stringify(res);
   chan.forEach((c) => {
     try {
       window.localStorage.setItem(c, jsonString);
