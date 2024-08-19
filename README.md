@@ -1,218 +1,191 @@
 # data-synchronizer
----
-A common library for transferring data to multi-page applications.
+A versatile library for transferring data across multi-page applications.
 
-## Background
-As we all know, every page run in diffurent Javascript context in multi-page applications. so that, we can't to transfer data in `global variable`、`publish-subscribe`、`observer` etc ways. so, I developed the lib to handle this problem. if your app is a single page app, please use others libs.
+# Background
+In multi-page applications, each page operates in a different JavaScript context. This means that typical methods such as using global variables, publish-subscribe patterns, or observers do not work for data transfer across pages. To address this challenge, I developed this library. If your application is a single-page app, consider using other libraries better suited for that environment.
 
-## Requirements
----
-*ES5* & *Browser*
+# Requirements
+ES5 & Browser
 
-## Install
+# Installation
 Using npm:
-```
+```bash
 npm install data-synchronizer --save
 ```
 
 Using yarn:
-```
+```bash
 yarn add data-synchronizer
 ```
 
 Using pnpm:
-```
+```bash
 pnpm install data-synchronizer --save
 ```
-
-## Functional Usage
-For example, create two pages `list` and `details`
+Functional Example
+Here's an example with two pages: list and details.
 
 ```typescript
 // list.vue
 import { ref } from 'vue';
 import { useDataSynchronizer } from 'data-synchronizer';
 
-const chan = 'cancelLike';
+const channel = 'cancelLike';
 
-type Listitem = {
+type ListItem = {
   id: number;
   title: string;
   like: number;
 }
 
-// Let's say the list contains 100 pieces of data
-const list = ref<Listitem[]>([
-  {
-    id: 0,
-    title: 'learning javascript',
-    like: 2
-  },
-  ...
-  {
-    id: 99,
-    title: 'learning javascript',
-    like: 9
-  },
-])
+// Example: the list contains 100 items
+const list = ref<ListItem[]>([
+  { id: 0, title: 'learning javascript', like: 2 },
+  // ...
+  { id: 99, title: 'learning javascript', like: 9 },
+]);
 
 const { onMessage, onSendMessageError, close } = useDataSynchronizer({
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
 
-onSendMessageError(chan, (event: DOMException | MessageEvent) => {
-  console.error(event)
+onSendMessageError(channel, (event: DOMException | MessageEvent) => {
+  console.error(event);
 });
 
-onMessage(chan, (params: Listitem) => {
+onMessage(channel, (params: ListItem) => {
   const target = list.value.find(item => item.id === params.id);
-  target && target.like = params.like;
-  // the like of target will decrease by 1.
-})
+  if (target) target.like = params.like;
+  // The like count of the target will decrease by 1.
+});
 
-close(); // execute close will cann't receive data
+close(); // Calling close will stop receiving data.
+
 ```
-
 ```typescript
 // details.vue
-
 import { useDataSynchronizer } from 'data-synchronizer';
 
-const chan = 'cancelLike'; // the chan must be same with previous.
+const channel = 'cancelLike'; // The channel must match the previous one.
 
 const { sendMessage } = useDataSynchronizer({
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
 
-type Listitem = {
+type ListItem = {
   id: number;
   title: string;
   like: number;
 }
 
-const cancelLike = (item: Listitem) => {
+const cancelLike = (item: ListItem) => {
   item.like--;
-  sendMessage(chan, item);
-}
+  sendMessage(channel, item);
+};
 ```
 
-## Class Usage
+Class-based Example
 ```typescript
 import { ref } from 'vue';
 import { DataSynchronizer } from 'data-synchronizer';
 
-const chan = 'cancelLike';
+const channel = 'cancelLike';
 
-type Listitem = {
+type ListItem = {
   id: number;
   title: string;
   like: number;
 }
 
-// Let's say the list contains 100 pieces of data
-const list = ref<Listitem[]>([
-  {
-    id: 0,
-    title: 'learning javascript',
-    like: 2
-  },
-  ...
-  {
-    id: 99,
-    title: 'learning javascript',
-    like: 9
-  },
-])
+// Example: the list contains 100 items
+const list = ref<ListItem[]>([
+  { id: 0, title: 'learning javascript', like: 2 },
+  // ...
+  { id: 99, title: 'learning javascript', like: 9 },
+]);
 
 const instance = new DataSynchronizer({
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
 
-instance.onSendMessageError(chan, (event: DOMException | MessageEvent) => {
-  console.error(event)
+instance.onSendMessageError(channel, (event: DOMException | MessageEvent) => {
+  console.error(event);
 });
 
-instance.onMessage(chan, (params: Listitem) => {
+instance.onMessage(channel, (params: ListItem) => {
   const target = list.value.find(item => item.id === params.id);
-  target && target.like = params.like;
-  // the like of target will decrease by 1.
-})
+  if (target) target.like = params.like;
+  // The like count of the target will decrease by 1.
+});
 
-instance.close(); // execute close will cann't receive data
+instance.close(); // Calling close will stop receiving data.
 ```
-
 
 ```typescript
 // details.vue
-
 import { DataSynchronizer } from 'data-synchronizer';
 
-const chan = 'cancelLike'; // the chan must be same with previous.
+const channel = 'cancelLike'; // The channel must match the previous one.
 
 const instance = new DataSynchronizer({
   // engine: 'LocalStorage' | 'BroadcastChannel' // optional
 });
 
-type Listitem = {
+type ListItem = {
   id: number;
   title: string;
   like: number;
 }
 
-const cancelLike = (item: Listitem) => {
+const cancelLike = (item: ListItem) => {
   item.like--;
-  instance.sendMessage(chan, item);
-}
+  instance.sendMessage(channel, item);
+};
 ```
+# Types
+DataSynchronizer
 
-## types
-- DataSynchronizer
 ```typescript
+type Engine = 'LocalStorage' | 'BroadcastChannel';
 
-type Engine = 'LocalStorage' | 'BroadcastChannel'
-
-export type ChanKey = string | string[];
+export type ChannelKey = string | string[];
 
 type Options = {
-  engine?: Engine; // default value is 'BroadcastChannel'
+  engine?: Engine; // Default: 'BroadcastChannel'
 };
 
-export type onCallback = (args: any) => void;
+export type OnCallback = (args: any) => void;
 
-export type onSendMessageErrorCallback = (error: MessageEvent | DOMException) => void;
+export type OnSendMessageErrorCallback = (error: MessageEvent | DOMException) => void;
 
-export type onMessageMethod = (chan: ChanKey, callback: onCallback) => void;
+export type OnMessageMethod = (channel: ChannelKey, callback: OnCallback) => void;
 
-export type sendMessageMethod = <T extends any>(chan: ChanKey, o: T, target?: SendTarget) => void;
+export type SendMessageMethod = <T>(channel: ChannelKey, data: T, target?: SendTarget) => void;
 
-export type onSendMessageErrorMethod = (chan: ChanKey, callback: onSendMessageErrorCallback) => void;
+export type OnSendMessageErrorMethod = (channel: ChannelKey, callback: OnSendMessageErrorCallback) => void;
 
-export type closeMethod = (chan: ChanKey) => void;
+export type CloseMethod = (channel: ChannelKey) => void;
 
 export type SendTarget = RegExp | string | undefined;
 
 export type EngineOptions = {
-  engine: Engine,
+  engine: Engine;
   support: boolean;
-  onMessage: onMessageMethod,
-  sendMessage: sendMessageMethod,
-  onSendMessageError: onSendMessageErrorMethod,
-  close: closeMethod,
-}
+  onMessage: OnMessageMethod;
+  sendMessage: SendMessageMethod;
+  onSendMessageError: OnSendMessageErrorMethod;
+  close: CloseMethod;
+};
 
 type DataSynchronizer = (options: Options) => EngineOptions;
 ```
 
-## Future
+# Future Enhancements
+[1] Targeted Receivers
+Currently, the library broadcasts data, meaning that all pages with the same origin receive the data. This may not always be ideal. [Completed]
 
-### appoint receive end. 
-So far, the library sends data through broadcast, which means that every Same-Origin page will receive the data. This approach might be unreasonable. [accomplished]
+[2] Server-side Data Transfer
+At present, the library only supports data transfer within the same browser. In the future, I plan to explore cross-browser data transfer!
 
-### server end transfer data
-Currently, the library can only transfer data within the same browser. Moving forward, I will consider the possibility of transferring data between different browsers!
-
-### plugin or middleware
-
-### custom engine
-
-
+[3] Plugins or Middleware
+[4] Custom Engines
