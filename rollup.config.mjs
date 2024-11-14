@@ -32,10 +32,36 @@ export default {
       format: 'cjs',
       entryFileNames: '[name].cjs.js',
     },
+    {
+      dir: dist,
+      format: 'amd',
+      entryFileNames: '[name].amd.js',
+      plugins: [terser()]
+    },
+    {
+      dir: dist,
+      format: 'amd',
+      entryFileNames: '[name].amd.js',
+      plugins: [terser()]
+    },
+    {
+      dir: dist,
+      format: 'umd',
+      entryFileNames: '[name].umd.js',
+      name: "DataSynchronizer",
+      plugins: [terser()]
+    },
+    {
+      dir: dist,
+      format: 'umd',
+      entryFileNames: '[name].umd.js',
+      name: "DataSynchronizer"
+    },
   ],
   plugins: [
     getBabelOutputPlugin({
       configFile: resolvePath("babel.config.js"),
+      allowAllFormats: true,
     }),
     typescript({
       tsconfig: resolvePath('tsconfig.json'),

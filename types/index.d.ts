@@ -14,12 +14,11 @@ export type onSendMessageErrorMethod = (chan: ChanKey, callback: onSendMessageEr
 export type closeMethod = (chan: ChanKey) => void;
 
 export type StorageData = {
-  $id: string;
+  $id: string;// setItem 每次的值不一样才会触发事件
   $payload: {
     $type: 'string' | 'number' | 'boolean' | 'symbol' | 'object' | 'array' | 'function' | 'date' | 'regexp' | 'bigint' | 'set' | 'map' | 'null' | 'undefined',
     $value: any,
   },
-  $timezone: number,
   $origin: string,
   $target?: string,
 }

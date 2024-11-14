@@ -1,9 +1,10 @@
 {
   "name": "data-synchronizer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "A common library for transferring data to multi-page applications",
   "scripts": {
+    "dev": "nodemon lib/index.ts",
     "build": "rollup --config rollup.config.mjs",
     "serve": "serve ./demo"
   },
@@ -47,5 +48,8 @@
     "serve": "^14.2.1",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.7"
   }
 }

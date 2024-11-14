@@ -2,9 +2,9 @@ const $type = 'number';
 
 const to = (value: number) => ({
   $type,
-  $value: '' + value
+  $value: value
 })
 
-const from = (value: string) => +value
+const from = (value: number) => value
 
 export default [$type, from, to];

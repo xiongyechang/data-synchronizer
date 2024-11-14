@@ -43,7 +43,6 @@ export const toJsonString = (payload) => {
 export const handleData = (payload: any, target: SendTarget) => {
   const $payload = toJsonString(payload);
   return {
-    $timezone: Date.now(),
     $origin: location.href,
     $payload,
     $target: typeof target === "string" ? target : target?.source,

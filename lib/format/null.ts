@@ -7,7 +7,7 @@ const to = (value: null) => {
   }
 }
 
-const from = (value: string) => {
+const from = () => {
   return null;
 }
 

@@ -5,6 +5,6 @@ const to = (value: boolean) => ({
   $value: value
 })
 
-const from = (value: string) =>  value === 'true'
+const from = (value: boolean) => value;
 
 export default [$type, from, to];

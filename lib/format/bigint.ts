@@ -3,7 +3,7 @@ const $type = 'bigint';
 const to = (value: bigint) => {
   return {
     $type,
-    $value: '' + value
+    $value: value.toString(),
   }
 }
 

@@ -1,0 +1,4 @@
+{
+  "watch": "lib",
+  "exec": "pnpm build"
+}
