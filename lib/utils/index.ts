@@ -17,7 +17,6 @@ const isArrowFunction = fn => {
 }
 
 const getType = (v) => {
-  console.log(v instanceof Function, isArrowFunction(v))
   if (v === undefined) {
     return "undefined";
   } else if (v === null) {
