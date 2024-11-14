@@ -35,19 +35,18 @@ export default {
     {
       dir: dist,
       format: 'amd',
-      entryFileNames: '[name].amd.js',
+      entryFileNames: '[name].amd.min.js',
       plugins: [terser()]
     },
     {
       dir: dist,
       format: 'amd',
       entryFileNames: '[name].amd.js',
-      plugins: [terser()]
     },
     {
       dir: dist,
       format: 'umd',
-      entryFileNames: '[name].umd.js',
+      entryFileNames: '[name].umd.min.js',
       name: "DataSynchronizer",
       plugins: [terser()]
     },
