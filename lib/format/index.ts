@@ -12,8 +12,10 @@ import ma from './map';
 import dat from './date';
 import reg from './regexp';
 import und from './undefined';
+import arrowFunction from './arrow-function';
+import asyncFunction from './async-function';
 
-const formatMap = [str, bool, num, sym, bi, obj, nul, func, arr, se, ma, dat, reg, und].reduce((cur, next) => {
+const formatMap = [str, bool, num, sym, bi, obj, nul, func, arr, se, ma, dat, reg, und, arrowFunction, asyncFunction].reduce((cur, next) => {
   const [$type, from, to] = next;
   Object.assign(cur, {
     // @ts-ignore

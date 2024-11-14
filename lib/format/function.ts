@@ -1,13 +1,16 @@
 const $type = 'function'
 
-const to = (value: Function) => ({
-  $type,
-  $value: value.toString(),
-})
+const to = (value: Function) => {
+  return {
+    $type,
+    $value: value.toString(),
+  }
+}
 
 const from = (value: string) => {
   const funcBody = value.startsWith('function') ? value: 'function ' + value;
-  return new Function('...rest', 'return (' + funcBody + ')(...rest)');
+  const func =  new Function(`return ${funcBody}`);
+  return func();
 }
 
 export default [$type, from, to];

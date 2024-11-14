@@ -5,12 +5,29 @@ export const isSupportBroadcastChannel = "BroadcastChannel" in window;
 
 export const isSupportLocalStorage = "localStorage" in window;
 
-const getType = (v) =>
-  v === undefined
-    ? "undefined"
-    : v === null
-    ? "null"
-    : v.constructor.name.toLowerCase();
+const isArrowFunction = fn => {
+  const str = fn?.toString() || '';
+  // 判断函数体是否有花括号
+  if (str.match(/{[\s\S]*}/)) {
+      // 将花括号内的函数体去掉
+      return str.replace(/{[\s\S]*}/, "").includes("=>")
+  } else {
+      return true
+  }
+}
+
+const getType = (v) => {
+  console.log(v instanceof Function, isArrowFunction(v))
+  if (v === undefined) {
+    return "undefined";
+  } else if (v === null) {
+    return "null";
+  } else if (v instanceof Function && isArrowFunction(v)) {
+    return "arrowFunction";
+  } else {
+    return v.constructor.name.toLowerCase();
+  }
+};
 
 export const fromJsonStringData = (jsonString: string) => {
   const data: StorageData = JSON.parse(jsonString);
