@@ -8,10 +8,10 @@ const to = (value: Object) => {
   Object.entries(value).forEach(([key, value]) => {
     o[key] = toJsonString(value);
   });
-  return {
+  return [
     $type,
-    $value: o,
-  }
+    o,
+  ]
 }
 
 const from = (value: string | object) => {
@@ -20,7 +20,7 @@ const from = (value: string | object) => {
   const r = {};
   Object.entries(o).forEach(([key, value]) => {
     // @ts-ignore
-    const { $type, $value } = value;
+    const [$type, $value] = value;
     r[key] = formatMap[$type].from($value);
   });
   return r;

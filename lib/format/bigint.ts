@@ -1,10 +1,10 @@
 const $type = 'bigint';
 
 const to = (value: bigint) => {
-  return {
+  return [
     $type,
-    $value: value.toString(),
-  }
+    value.toString(),
+  ]
 }
 
 const from = (value: string) => {

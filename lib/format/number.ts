@@ -1,9 +1,9 @@
 const $type = 'number';
 
-const to = (value: number) => ({
+const to = (value: number) => ([
   $type,
-  $value: value
-})
+  value
+])
 
 const from = (value: number) => value
 

@@ -1,10 +1,10 @@
 const $type = 'null';
 
 const to = (value: null) => {
-  return {
+  return [
     $type,
-    $value: '' + value
-  }
+    '' + value
+  ]
 }
 
 const from = () => {

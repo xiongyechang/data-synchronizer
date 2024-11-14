@@ -1,10 +1,10 @@
 const $type = 'undefined';
 
 const to = () => {
-  return {
+  return [
     $type,
-    $value: 'undefined'
-  }
+    'undefined',
+  ]
 }
 
 const from = () => {

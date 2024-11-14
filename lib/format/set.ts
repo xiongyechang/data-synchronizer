@@ -5,17 +5,17 @@ const $type = 'set';
 
 const to = <T extends any>(value: Set<T>) => {
   const arr: T[] = Array.from(value).map<T>(item => toJsonString(item) as T);
-  return {
+  return [
     $type,
-    $value: arr,
-  }
+    arr,
+  ]
 }
 
 const from = (value: string | Set<any>) => {
   const o = typeof value === 'string' ? JSON.parse(value) : value;
   const s = new Set();
   o.forEach((item) => {
-    const { $type, $value } = item;
+    const [$type, $value] = item;
     const it = formatMap[$type].from($value);
     s.add(it);
   });

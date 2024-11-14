@@ -14,17 +14,17 @@ const to =  <K, V>(value: Map<K, V>) => {
     const v = toJsonString(value);
     arr.push([k, v]);
   }
-  return {
+  return [
     $type,
-    $value: arr,
-  }
+    arr,
+  ]
 }
 
 const from = (value: string | Map<any, any>) => {
   const o = typeof value === 'string' ? JSON.parse(value) as Array<any[]> : value;
   const m = new Map();
   o.forEach(([k, v]) => {
-    const { $type, $value } = k;
+    const [$type, $value] = k;
     k = formatMap[$type].from($value);
     const { $type: tp, $value: vl } = v;
     v = formatMap[tp].from(vl);

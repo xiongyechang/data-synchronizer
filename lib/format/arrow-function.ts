@@ -1,9 +1,9 @@
 const $type = 'arrowFunction';
 
-const to = (value: Function) => ({
+const to = (value: Function) => ([
   $type,
-  $value: value.toString(),
-})
+  value.toString(),
+])
 
 const from = (value: string) => {
   const arrowFunc = new Function(`return ${value}`);

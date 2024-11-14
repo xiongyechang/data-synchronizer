@@ -1,9 +1,9 @@
 const $type = 'boolean';
 
-const to = (value: boolean) => ({
+const to = (value: boolean) => [
   $type,
-  $value: value
-})
+  value
+]
 
 const from = (value: boolean) => value;
 

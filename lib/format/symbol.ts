@@ -1,10 +1,10 @@
 const $type = 'symbol';
 
 const to = (value: symbol) => {
-  return {
+  return [
     $type,
-    $value: value.description
-  }
+    value.description
+  ]
 }
 
 const from = (value: string) => {

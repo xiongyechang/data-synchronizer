@@ -15,10 +15,10 @@ export type closeMethod = (chan: ChanKey) => void;
 
 export type StorageData = {
   $id: string;// setItem 每次的值不一样才会触发事件
-  $payload: {
-    $type: 'string' | 'number' | 'boolean' | 'symbol' | 'object' | 'array' | 'function' | 'date' | 'regexp' | 'bigint' | 'set' | 'map' | 'null' | 'undefined',
-    $value: any,
-  },
+  $payload: [
+    'string' | 'number' | 'boolean' | 'symbol' | 'object' | 'array' | 'function' | 'date' | 'regexp' | 'bigint' | 'set' | 'map' | 'null' | 'undefined',
+    any,
+  ],
   $origin: string,
   $target?: string,
 }

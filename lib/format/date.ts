@@ -1,10 +1,10 @@
 const $type = 'date'
 
 const to =  (value: Date) => {
-  return {
+  return [
     $type,
-    $value: '' + value.getTime(),
-  }
+    '' + value.getTime(),
+  ]
 }
 
 const from = (value: string) => new Date(+value);

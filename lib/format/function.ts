@@ -1,10 +1,10 @@
 const $type = 'function'
 
 const to = (value: Function) => {
-  return {
+  return [
     $type,
-    $value: value.toString(),
-  }
+    value.toString(),
+  ]
 }
 
 const from = (value: string) => {

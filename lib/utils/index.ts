@@ -30,12 +30,12 @@ const getType = (v) => {
 
 export const fromJsonStringData = (jsonString: string) => {
   const data: StorageData = JSON.parse(jsonString);
-  const { $payload, ...others } = data;
+  const { $payload, $id, ...others } = data;
   const o = {
     ...others,
-    $payload: {},
+    $payload: [],
   };
-  const { $type, $value } = $payload;
+  const [$type, $value] = $payload;
   o["$payload"] = formatMap[$type].from($value);
 
   return o;
@@ -43,7 +43,7 @@ export const fromJsonStringData = (jsonString: string) => {
 
 export const fromJsonString = (jsonString: string) => {
   const data = JSON.parse(jsonString);
-  const { $type, $value } = data;
+  const [$type, $value] = data;
   const o = formatMap[$type].from($value);
   return o;
 };

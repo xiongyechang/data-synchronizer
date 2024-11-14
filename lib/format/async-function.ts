@@ -5,10 +5,10 @@ const to = (value: Function) => {
   if (!funcString.startsWith('async function')) {
     funcString = funcString.replace('async', 'async function');
   }
-  return ({
+  return [
     $type,
-    $value: funcString,
-  });
+    funcString,
+  ];
 }
 
 const from = (value: string) => {

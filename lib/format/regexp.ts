@@ -1,12 +1,12 @@
 const $type = 'regexp';
 
 const to = (value: RegExp) => {
-  return {
+  return [
     $type,
-    $value: value.source,
-  }
+    value.source,
+  ]
 }
 
-const from = (value: string) =>  new RegExp(value);
+const from = (value: string) => new RegExp(value);
 
 export default [$type, from, to];
