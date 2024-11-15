@@ -24,10 +24,10 @@ const from = (value: string | Map<any, any>) => {
   const o = typeof value === 'string' ? JSON.parse(value) as Array<any[]> : value;
   const m = new Map();
   o.forEach(([k, v]) => {
-    const [$type, $value] = k;
-    k = formatMap[$type].from($value);
-    const { $type: tp, $value: vl } = v;
-    v = formatMap[tp].from(vl);
+    const [ $keyType, $keyValue] = k;
+    const [ $valueType, $valueValue ] = v;
+    k = formatMap[$keyType].from($keyValue);
+    v = formatMap[$valueType].from($valueValue);
     m.set(k, v);
   })
   return m;
