@@ -1,10 +1,12 @@
 const $type = 'number';
 
-const to = (value: number) => ([
-  $type,
-  value
-])
+const to = (value: number) => {
+  return [
+    $type,
+    value.toString()
+  ];
+}
 
-const from = (value: number) => value
+const from = (value: string) => +value;
 
 export default [$type, from, to];
