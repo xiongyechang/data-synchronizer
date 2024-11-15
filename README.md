@@ -142,6 +142,29 @@ const cancelLike = (item: ListItem) => {
   instance.sendMessage(channel, item);
 };
 ```
+
+# Supported Data Types
+The library supports the following data types:
+
+- String
+- Number
+- BigInt
+- Boolean
+- Symbol
+- Null
+- Undefined
+- Object
+- Array
+- Date
+- RegExp
+- Function (anonymous function + named function + arrow function + async function + generator function)
+- Map
+- Set
+
+# Example
+![](https://cdn.xiongyechang.com/Screenshot%202024-11-16%20004314.png)
+![](https://cdn.xiongyechang.com/Screenshot%202024-11-16%20004344.png)
+
 # Types
 DataSynchronizer
 
