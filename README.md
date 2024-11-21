@@ -1,8 +1,25 @@
 # data-synchronizer
-A versatile library for transferring data across multi-page applications.
+A versatile library for transferring data across multi-page applications or single page applications.
 
-# Background
-In multi-page applications, each page operates in a different JavaScript context. This means that typical methods such as using global variables, publish-subscribe patterns, or observers do not work for data transfer across pages. To address this challenge, I developed this library. If your application is a single-page app, consider using other libraries better suited for that environment.
+# Features
+- Supports both LocalStorage and BroadcastChannel engines.
+- Allows for the creation of multiple channels for data transfer.
+- Provides a simple API for sending and receiving messages.
+- Automatically handles message serialization and deserialization.
+- Supports TypeScript.
+
+# Usage
+- Receive Client
+|api|describe|
+|:---:|:---:|
+|onMessage|Receive data|
+
+- Send Client
+|api|describe|
+|:---:|:---:|
+|sendMessage|Send data|
+|onSendMessageError|Receive data transmission error|
+|close|Stop receiving data|
 
 # Requirements
 ES5 & Browser
@@ -22,7 +39,7 @@ Using pnpm:
 ```bash
 pnpm install data-synchronizer --save
 ```
-Functional Example
+# Functional Example
 Here's an example with two pages: list and details.
 
 ```typescript
@@ -84,7 +101,7 @@ const cancelLike = (item: ListItem) => {
 };
 ```
 
-Class-based Example
+# Class-based Example
 ```typescript
 import { ref } from 'vue';
 import { DataSynchronizer } from 'data-synchronizer';

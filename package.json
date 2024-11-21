@@ -1,8 +1,8 @@
 {
   "name": "data-synchronizer",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": false,
-  "description": "A common library for transferring data to multi-page applications",
+  "description": "A versatile library for transferring data across multi-page applications or single page applications.",
   "scripts": {
     "dev": "nodemon lib/index.ts",
     "build": "rollup --config rollup.config.mjs",
@@ -24,14 +24,15 @@
     "lib/**/*"
   ],
   "keywords": [
-    "multi-page",
-    "multi page",
+    "BroadcastChannel",
+    "LocalStorage",
+    "spa",
+    "single page application",
+    "mpa",
+    "multi page application",
     "passing data",
     "data transfer",
-    "sync data",
-    "多页面应用",
-    "数据同步",
-    "数据传递"
+    "sync data"
   ],
   "license": "MIT",
   "devDependencies": {
@@ -46,7 +47,6 @@
     "core-js": "^3.35.0",
     "nodemon": "^3.1.7",
     "rollup": "^4.9.4",
-    "serve": "^14.2.1",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   }

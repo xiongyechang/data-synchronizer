@@ -34,6 +34,14 @@ export const sendLocalStorageMessage = (chan: string | string[], o, params) => {
   chan.forEach((c) => {
     try {
       window.localStorage.setItem(c, jsonString);
+
+      // dispatch event
+      const event = new StorageEvent("storage", {
+        key: c,
+        newValue: jsonString,
+      });
+      window.dispatchEvent(event);
+
     } catch (error) {
       const callbacks = OnSendMessageErrorMap.get(c);
       (callbacks || []).forEach((callback) => {
